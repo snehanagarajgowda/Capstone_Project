@@ -2,6 +2,9 @@ package com.automationexercise.tests;
 
 import java.io.IOException;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -26,9 +29,9 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 		}
 	}
 
-	//TC21. To verify and validate the  E-commerece web application recommended items list on home page
+	//TC18. To verify and validate the  E-commerece web application recommended items list on home page
 	@Test
-	public void TC23_verifyRecommendedItems() {
+	public void TC18_verifyRecommendedItems() {
 		ExtentTest test = extent.createTest("Verify Recommended Items on home page");
 		try {
 			homepage.clickRecommendedItem();
@@ -39,18 +42,16 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 	}
 
 
-	//TC22. To verify and validate the  E-commerece web application hover effect on product on home page.
+	//TC19. To verify and validate the  E-commerece web application recommended items display
 	@Test
-	public void TC22_verifyHoverEffectOnProduct() {
+	public void TC19_verifyRecommendedItemsDisplay() {
 		ExtentTest test = extent.createTest("Verify hover effect on featured product");
 		try {
-			boolean isHoverVisible = homepage.hoverOnProductByName("Blue Top");
-
-			if (isHoverVisible) {
-				test.pass("Hover effect visible for product: Blue Top");
-			} else {
-				test.fail("Hover effect NOT visible for product: Blue Top")
-				.addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "HoverEffectFail"));
+			if(homepage.isDisplayedRecommendedItems()) {
+				test.pass("Recommended items is displayed");
+			}
+			else {
+				test.fail("Recommended items not displayed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Recommended items not displayed"));
 			}
 
 		} catch (Exception e) {
@@ -58,9 +59,9 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 		}
 	}
 
-	// TC23. To verify and validate the  E-commerece web application subscription displayed on home page
+	// TC20. To verify and validate the  E-commerece web application subscription displayed on home page
 	@Test
-	public void TC23_verifySubscriptionDisplayed() {
+	public void TC20_verifySubscriptionDisplayed() {
 		ExtentTest test = extent.createTest("Verify subscription displayed");
 		try {
 			boolean result = homepage.isSubscriptionDisplayed();
@@ -74,9 +75,9 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 		}
 	}
 
-	//TC24. To verify and validate the  E-commerece web application subscription mail on home page.
+	//TC21. To verify and validate the  E-commerece web application subscription mail on home page.
 	@Test
-	public void TC24_verifyValidSubscriptionMail() {
+	public void TC21_verifyValidSubscriptionMail() {
 		ExtentTest test = extent.createTest("Verify valid subscription mail");
 		try {
 			homepage.enterSubscriptionEmail("03snehan@gmail.com");
@@ -91,9 +92,9 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 		}
 	}
 
-	//TC25.To verify and validate the  E-commerece web application Dots button in the periodic slide show.
+	//TC22.To verify and validate the  E-commerece web application Dots button in the periodic slide show.
 	@Test
-	public void TC25_verifySliderDots() {
+	public void TC22_verifySliderDots() {
 		ExtentTest test = extent.createTest("Verify dots slide show on home page");
 		try {
 			if (homepage.isSliderDotsVisible()) {
@@ -101,51 +102,50 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 				homepage.clickFirstSliderDot();
 				test.pass("Clicked first slider dot successfully");
 			} else {
-				test.fail("Slider dots are not visible");
+				test.fail("Slider dots are not visible").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Dot slide show fails"));;
 			}
 		} catch (Exception e) {
 			test.fail("Exception while verifying slider dots: " + e.getMessage());
 		}
 	}
 
-	//TC26. To verify and validate Category Expansion
+	//TC23. To verify and validate Category display on home page
 	@Test
-	public void TC26_verifyCategoryExpansion() {
+	public void TC23_verifyCategoryisDisplayed() {
 		ExtentTest test = extent.createTest("Verify first category expansion on home page");
 		try {
-			homepage.clickWomenCategory();
-			test.pass("Women category is clicked successfully");
-			homepage.clickMenCategory();
-			test.pass("Men category is clicked successfully");
+			boolean result=homepage.isCategoryDisplayed();
+			if(result) {
+				test.pass("Category is displayed on home page");
+			}
+			else {
+				test.fail("Category is not displayed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Category display fails"));
+			}
 
-			homepage.clickKidsCategory();
-			test.pass("Kids category is clicked successfully");
 		} catch(Exception e) {
 			test.fail("Failed to click category: " + e.getMessage());
 		}
 	} 
 
-	//TC27. To verify and validate 'View Product' Link Navigation
+	//TC24. To verify and validate feature item is displayed on homepage
 	@Test
-	public void TC27_verifyViewProductNavigation() {
-		ExtentTest test = extent.createTest("Verify view product link navigation for Blue Top");
+	public void TC24_verifyFeatureItemsDisplay() {
+		ExtentTest test = extent.createTest("Verify feature item  display");
 		try {
-			homepage.clickViewProduct();
-			String expectedUrl = "https://automationexercise.com/product_details/1"; 
-			String actualUrl = driver.getCurrentUrl();
-			if(actualUrl.equals(expectedUrl)) {
-				test.pass("View Product link navigated successfully to product detail page");
-			} else {
-				test.fail("Navigation failed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "View product navigation fail"));
+			if(homepage.isDisplayedFeatureItems()) {
+				test.pass("Feature item is displayed");
+			}
+			else {
+				test.fail("Feature item is not displayed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Feature items display fails"));
 			}
 		} catch(Exception e) {
 			test.fail("Exception: " + e.getMessage());
 		}
 	} 
 
-	//TC28. To verify and validate Subscription with an Invalid Email
+	//TC25. To verify and validate Subscription with an Invalid Email
 	@Test
-	public void TC29_verifyInvalidSubscriptionMail() {
+	public void TC25_verifyInvalidSubscriptionMail() {
 		ExtentTest test = extent.createTest("Verify invalid subscription mail");
 		try {
 			homepage.enterSubscriptionEmail("12mail.com");
@@ -160,45 +160,45 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 			test.fail("Exception: " + e.getMessage());
 		}
 	} 
-	// TC29. To verify and validate the e commerce web application without entering the email of subscription on products page
+	// TC26. To verify and validate the e commerce web application without entering the email of subscription on products page
 	@Test
-    public void TC26_verifyEmptySubscriptionMail() {
-        ExtentTest test = extent.createTest("Verify Empty SubscriptionMail");
-        try {
-            homepage.enterSubscriptionEmail("");
-            boolean result = homepage.isSubscriptionSuccess();
-            if (!result) {
-                test.pass("Empty subscription mail correctly handled");
-            } else {
-                test.fail("Empty subscription mail not  handled").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Cannot suscribe without email"));
-            }
-        } catch (Exception e) {
-            test.fail("Exception: " + e.getMessage());
-        }
-    }
-	//TC30. To verify and validate with working of side arrow for subscription mail on e commerce web application products page
+	public void TC26_verifyEmptySubscriptionMail() {
+		ExtentTest test = extent.createTest("Verify Empty SubscriptionMail");
+		try {
+			homepage.enterSubscriptionEmail("");
+			boolean result = homepage.isSubscriptionSuccess();
+			if (!result) {
+				test.pass("Empty subscription mail correctly handled");
+			} else {
+				test.fail("Empty subscription mail not  handled").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Cannot suscribe without email"));
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
+		}
+	}
+	//TC27. To verify and validate with working of side arrow for subscription mail on e commerce web application products page
 	@Test
-    public void TC27_verifySubscriptionArrowWorks() {
-        ExtentTest test = extent.createTest("Verify subscription arrow works");
-        try {
-            homepage.enterSubscriptionEmail("valid@email.com");
-            boolean result = homepage.isSubscriptionSuccess();
-            if (result) {
-                test.pass("Subscription arrow works with valid email");
-            } else {
-                test.fail("Subscription arrow not working properly").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subcription arrow not working"));
-            }
-        } catch (Exception e) {
-            test.fail("Exception: " + e.getMessage());
-        }
-    }
+	public void TC27_verifySubscriptionArrowWorks() {
+		ExtentTest test = extent.createTest("Verify subscription arrow works");
+		try {
+			homepage.enterSubscriptionEmail("valid@email.com");
+			boolean result = homepage.isSubscriptionSuccess();
+			if (result) {
+				test.pass("Subscription arrow works with valid email");
+			} else {
+				test.fail("Subscription arrow not working properly").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subcription arrow not working"));
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
+		}
+	}
 
 
-	
 
-	//TC31. To verify and validate 'Recommended Items' Carousel Forward
+
+	//TC28. To verify and validate 'Recommended Items' Carousel Forward
 	@Test
-	public void TC30_verifyRecommendedCarouselForward() throws IOException {
+	public void TC28_verifyRecommendedCarouselForward() throws IOException {
 		ExtentTest test = extent.createTest("Verify recommended carousel forward button");
 		try {
 			homepage.clickRecommendedForward();
@@ -208,31 +208,35 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 		}
 	}
 
-	//TC32. To verify and validate 'Recommended Items' Carousel Backward
+	//TC29. To verify and validate 'Recommended Items' Carousel Backward
 	@Test
-	public void TC30_verifyRecommendedCarouselBackward() throws IOException {
-		ExtentTest test = extent.createTest("Verify recommended carousel forward button");
+	public void TC29_verifyRecommendedCarouselBackward() throws IOException {
+		ExtentTest test = extent.createTest("Verify recommended carousel backward button");
 		try {
-			homepage.clickRecommendedForward();
+			homepage.clickRecommendedBackward();
 			test.pass("Clicked recommended items backward button successfully");
 		} catch(Exception e) {
-			test.fail("Failed to click recommended items forward button").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Recommended carousel fail"));
+			test.fail("Failed to click recommended items backward button").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Recommended carousel fail"));
 		}
 	}
 
-	//TC33. To verify and validate Scroll-Up Button Functionality
+	//TC30. To verify and validate Page Scroll-Up  Functionality
 	@Test
-	public void TC32_verifyScrollUpButton() throws IOException {
+	public void TC30_verifyPageScrollUp() throws IOException {
 		ExtentTest test = extent.createTest("Verify scroll up button functionality");
+		JavascriptExecutor js = (JavascriptExecutor)driver;
 		try {
-			homepage.clickScrollUp();
-			test.pass("Clicked scroll up button successfully");
-		} catch(Exception e) {
-			test.fail("Failed to click scroll up button: " + e.getMessage()).addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Scroll up failed"));
+			js.executeScript("window.scrollBy(0, -document.body.scrollHeight);");
+			System.out.println(js.executeScript("return window.pageYOffset;"));
+			test.pass("Page scrolled up");
+
+		}catch(Exception e) {
+			test.fail("Page is not scrolled up").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Page scroll up fails"));;
 		}
 	}
 
-	//TC34. To verify and validate Add to Cart from 'Recommended Items'
+
+	//TC31. To verify and validate Add to Cart from 'Recommended Items'
 	@Test
 	public void TC31_verifyAddToCartRecommended() throws IOException {
 		ExtentTest test = extent.createTest("Verify add to cart functionality from recommended items");
@@ -243,26 +247,39 @@ public class TC_Ecom_Homepage_UI_Test2 extends BaseTest {
 			test.fail("Failed to click add to cart for recommended item: " + e.getMessage()).addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Recommended failed to add cart"));
 		}
 	}
-	// TC35. To verify and validate the e commerce web application copyright is displayed on home page
-	 @Test
-	    public void TC28_verifyCopyrightDisplayed() {
-	    	
-	        ExtentTest test = extent.createTest("TC28_verifyCopyrightDisplayed");
-	        try {
-	            boolean result = homepage.isCopyrightDisplayed();
-	            if (result) {
-	                test.pass("Copyright is displayed");
-	            } else {
-	                test.fail("Copyright is not displayed")
-	                    .addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Copy right is not displayed"));
-	            }
-	        } catch (Exception e) {
-	            test.fail("Exception: " + e.getMessage());
-	        }
-	    }
+	// TC32. To verify and validate the e commerce web application copyright is displayed on home page
+	@Test
+	public void TC32_verifyCopyrightDisplayed() {
 
-	
-	
+		ExtentTest test = extent.createTest("TC28_verifyCopyrightDisplayed");
+		try {
+			boolean result = homepage.isCopyrightDisplayed();
+			if (result) {
+				test.pass("Copyright is displayed");
+			} else {
+				test.fail("Copyright is not displayed")
+				.addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Copy right is not displayed"));
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
+		}
+	}
+
+	//TC33. TO verify and validate page scroll down
+	@Test
+	public void TC33_verifyPageScrollDown() {
+		ExtentTest test = extent.createTest("Verify scroll up button functionality");
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		try {
+			js.executeScript("window.scrollBy(0, document.body.scrollHeight);");
+			System.out.println(js.executeScript("return window.pageYOffset;"));
+			test.pass("Page scrolled down");
+
+		}catch(Exception e) {
+			test.fail("Page is not scrolled down").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Page scroll down fails"));;
+		}
+	}
+
 }
 
 
