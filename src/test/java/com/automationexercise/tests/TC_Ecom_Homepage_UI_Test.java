@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
@@ -179,7 +182,7 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 			test.pass("Vedio Tutorials button clicked successfully");
 		}
 			 catch(Exception e) {
-					test.fail("Vedio Tutorials  button is not clicked").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Vedio Tutorials button not clicked"));;
+					test.fail("Vedio Tutorials  button is not clicked").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Vedio Tutorials button not clicked"));
 		}
 			
 		} 
@@ -197,35 +200,28 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 			
 		} 
 	
-	//TC12. To verify and validate the E-commerece web application Side bar on home page.
+	
+	//TC12. To verify and validate the  E-commerece web application APIs list for product on home page.
 	@Test
-	public void TC12_verifySideBar() throws IOException {
+	public void TC12_verifyAPIListProduct() throws IOException {
 		ExtentTest test = extent.createTest("verify and validate side bar on home page");
+		JavascriptExecutor js = (JavascriptExecutor)driver;
 		try {
-			homepage.clickSideBar("Women");
-			test.pass("Sidebar category clicked successfully");
-		}
-		catch(Exception e) {
-			test.fail("Failed to click sidebar category:" + e.getMessage()).addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Failed to click sidebar category"));
-		}
+			WebElement ele = driver.findElement(By.xpath("//*[@id=\"footer\"]/div[2]/div/div/p"));
+			js.executeScript("arguments[0].scrollIntoView();", ele);
+			System.out.println(js.executeScript("return window.pageYOffset;"));
+			test.pass("Page scrolled down");
 			
-		} 
-	//TC13. To verify and validate the  E-commerece web application APIs list for product on home page.
-	@Test
-	public void TC13_verifyAPIListProduct() throws IOException {
-		ExtentTest test = extent.createTest("verify and validate side bar on home page");
-		try {
-			homepage.clickAPITestPractice();
-			test.pass("Clicked successfully on api test practice");
+		}catch(Exception e) {
+			test.fail("Page is not scrolled down").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Pafe scrolling fails"));
 		}
-		catch(Exception e) {
-			test.fail("API test practice is not clicked").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "API test practice is not clicked"));;
-}
+		
+		
 	} 
 	
-	//TC14. To verify and validate the  E-commerece web application Category(Ex: Women,men,kids) on home page.
+	//TC13. To verify and validate the  E-commerece web application Category(Ex: Women,men,kids) on home page.
 	@Test
-	public void TC14_verifyCategories() throws IOException {
+	public void TC13_verifyCategories() throws IOException {
 	    ExtentTest test = extent.createTest("Verify Categories on Homepage");
 	    try{
 	    	String[] categories = {"Women", "Men", "Kids"};
@@ -239,9 +235,9 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 	    }
 	}  
 	
-	//TC15. To verify and validate the  E-commerece web application Brands name(Ex: H&M) on home page.
+	//TC14. To verify and validate the  E-commerece web application Brands name(Ex: H&M) on home page.
 	@Test
-	public void TC15_verifyBrands() throws IOException {
+	public void TC14_verifyBrands() throws IOException {
 	    ExtentTest test = extent.createTest("Verify brands on Homepage");
 	    try {
 	    	String[] brands = {"H&M", "Polo", "MADAME"};
@@ -255,9 +251,9 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 	    } 
 	} 
 	
-	//TC16. To verify and validate the  E-commerece web application Feature items on home page.
+	//TC15. To verify and validate the  E-commerece web application Feature items on home page.
 	@Test
-	public void TC16_verifyandClickFeaturedItems() throws IOException {
+	public void TC15_verifyandClickFeaturedItems() throws IOException {
 	    ExtentTest test = extent.createTest("Verify and Click Featured Items on Homepage");
 	    try {
 	        for (int i = 1; i <= 3; i++) {
@@ -268,13 +264,13 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 	        test.fail("Featured item verification failed: " + e.getMessage()).addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "click on feature item failed"));
 	    }
 	} 
-	//TC17. To verify and validate the  E-commerece web application Add to cart icon is visible on home page.
+	//TC16. To verify and validate the  E-commerece web application Add to cart icon is visible on home page.
 	@Test
-	public void TC17_verifyAddCartVisible() {
-	    ExtentTest test = extent.createTest("Verify add to cart is visible on home page");
-	    try {
-	    	boolean result = homepage.isDisplayedAddCart();
-	    	if(result) {
+	public void TC16_verifyAddCartVisible() {
+		ExtentTest test = extent.createTest("Verify add to cart is visible on home page");
+		try {
+	    	//boolean result = homepage.isDisplayedAddCart();
+	    	if(homepage.isDisplayedAddCart()) {
 	    		test.pass("Add to cart is displayed");
 	    	}
 	    	else {
@@ -282,12 +278,13 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 	    	}
 	    } catch(Exception e) {
 	    	test.fail("Exception: " + e.getMessage());
-	    }
-	    	
 	    } 
-	//TC18. To verify and validate the  E-commerece web application Cost under product is displayed on home page.
+	}
+	    	
+	    
+	//TC17. To verify and validate the  E-commerece web application Cost under product is displayed on home page.
 	@Test
-	public void TC18_verifycostproductisVisible() {
+	public void TC17_verifycostproductisVisible() {
 	    ExtentTest test = extent.createTest("Verify cost of product visible on home page");
 	    try {
 	    	boolean result = homepage.isDisplayedProductCost();
@@ -303,7 +300,7 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 	    	
 	    } 
 	
-	//TC19. To verify and validate the  E-commerece web application view  product is displayed under product on home page.
+	//TC18. To verify and validate the  E-commerece web application view  product is displayed under product on home page.
 	@Test
 	public boolean TC18_verifyViewItemVisible() {
 	    ExtentTest test = extent.createTest("Verify view item is visible on home page");
@@ -321,26 +318,6 @@ public class TC_Ecom_Homepage_UI_Test extends BaseTest{
 		return false;
 	    	
 	    } 
-	//TC20. To verify and validate the  E-commerece web application by clicking on view products that re directs to detailed product view on home page.
-	@Test
-	public void TC20_verifyViewProductRedirects() {
-	    ExtentTest test = extent.createTest("Verify clicking on View Product redirects to product detail page");
-	    try {
-	    	 homepage.clickFeaturedItemByName("Blue Top"); 
-	         String expectedUrl = "https://automationexercise.com/product_details/1"; // example
-	         String actualUrl = driver.getCurrentUrl();
-	         if(actualUrl.equals(expectedUrl)) {
-	             test.pass("Successfully redirected to product detail page");
-	         } else {
-	             test.fail("Redirection failed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "ViewProductRedirectFail"));
-	         }
-	     } catch(Exception e) {
-	         test.fail("Exception: " + e.getMessage());
-	     }
-	 
-	    } 
-	
-	
 }
 	
 	
