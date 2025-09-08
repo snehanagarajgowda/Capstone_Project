@@ -1,5 +1,6 @@
 package com.automationexercise.pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -7,6 +8,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TC_Ecom_Homepage_UI {
 	WebDriver driver;
@@ -28,9 +31,9 @@ public class TC_Ecom_Homepage_UI {
 	By category = By.xpath("/html/body/section[2]/div/div/div[1]/div/h2");
 	By brandNames = By.xpath("/html/body/section[2]/div/div/div[1]/div/div[3]/h2");
 	By featureItem = By.xpath("/html/body/section[2]/div/div/div[2]");
-	By addCart = By.xpath("/html/body/section[2]/div/div/div[2]/div[1]/div[2]/div/div[1]/div[2]/div/a");
-	By productCost = By.xpath("/html/body/section[2]/div/div/div[2]/div[1]/div[2]/div/div[1]/div[2]/div/h2");
-	By viewItem = By.xpath("/html/body/section[2]/div/div/div[2]/div[1]/div[2]/div/div[2]/ul/li/a");
+	By addCart = By.xpath("/html/body/section[2]/div/div/div[2]/div[1]/div[2]/div/div[1]/div[1]/a");
+	By productCost = By.xpath("/html/body/section[2]/div/div/div[2]/div[1]/div[3]/div/div[1]/div[1]/h2");
+	By viewItem = By.xpath("//h2[text()='Blue Top']/following::a[contains(text(),'Add to cart')][1]");
 	By recommendedItems = By.xpath("/html/body/section[2]/div/div/div[2]/div[2]/h2");
 	By subscriptionSection = By.xpath("//div[@class='single-widget']//h2[contains(text(),'Subscription')]");
 	By subscriptionEmailBox = By.xpath("//*[@id=\"susbscribe_email\"]");
@@ -84,8 +87,11 @@ public class TC_Ecom_Homepage_UI {
 	public void clickContactUs() {
 		driver.findElement(contactUs).click();
 	}
-	public void clickSideBar(String itemName) {
-		driver.findElement(sideBar).sendKeys(itemName);
+	public void clickSideBar(String categoryName) {
+		//driver.findElement(sideBar).sendKeys(itemName);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	    WebElement sidebarElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'" + categoryName + "')]")));
+	    sidebarElement.click();
 	}
 	public void clickAPITestPractice() {
 		driver.findElement(apiTestPractice).click();
