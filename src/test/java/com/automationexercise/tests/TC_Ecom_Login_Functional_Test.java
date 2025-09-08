@@ -14,6 +14,7 @@ import com.automationexercise.Base.BaseTest;
 import com.automationexercise.pages.TC_Ecom_Login_Func;
 import com.automationexercise.utilities.ScreenshotUtilities;
 import com.aventstack.extentreports.ExtentTest;
+
 import org.testng.Assert;
 
 
@@ -540,7 +541,6 @@ public class TC_Ecom_Login_Functional_Test extends BaseTest {
 		}
 	}
 }
-
 
 
 
