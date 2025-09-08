@@ -4,12 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class TC_Ecom_ContactUs_Func {
+public class CONTACTPAGE {
 	WebDriver driver;
-	public TC_Ecom_ContactUs_Func(WebDriver driver) {
+	public CONTACTPAGE(WebDriver driver) {
 		this.driver=driver;	
 	}
-	//Locators
 	
 	By btn_ContactUs = By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[8]/a");
 	By name = By.name("name");
@@ -20,10 +19,6 @@ public class TC_Ecom_ContactUs_Func {
 	By btn_Submit = By.xpath("//*[@id=\"contact-us-form\"]/div[6]/input");
 	By successMessage = By.xpath("//*[@id=\"contact-page\"]/div[2]/div[1]/div/div[2]");
 	By btn_HomeButton = By.xpath("//*[@id=\"form-section\"]/a/span");
-
-
-// Methods for Contact us page
-
 
 
 	public void clickContactUs() {
@@ -48,9 +43,7 @@ public class TC_Ecom_ContactUs_Func {
 	        emailField.clear();
 	        emailField.sendKeys(email);
 	    }
-	  
-
-
+	 
 	public WebElement enterSubject() {
 		return driver.findElement(subject);
 	}
@@ -83,6 +76,7 @@ public class TC_Ecom_ContactUs_Func {
 	public void clickHomeButton() {
 		driver.findElement(btn_HomeButton).click();
 	}
+
 }
 
 

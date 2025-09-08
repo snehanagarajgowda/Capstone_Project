@@ -1,25 +1,19 @@
 package com.automationexercise.pages;
 
-import java.time.Duration;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class TC_Ecom_Login_Func {
+public class LOGIN_SIGNUP_PAGE {
 	
 	WebDriver driver;
-	public TC_Ecom_Login_Func(WebDriver driver){
+	public LOGIN_SIGNUP_PAGE(WebDriver driver){
 		this.driver=driver;
 	}
-	// Locators 
 	
 	By loginPageButton=By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[4]/a");
-	public By txt_email=By.xpath("//*[@id=\"form\"]/div/div/div[1]/div/form/input[2]");
+	public By txt_email=By.name("email");
 	public By txt_password=By.name("password");
 	By loggedInText = By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[10]/a");
 	By btn_login = By.xpath("//*[@id=\"form\"]/div/div/div[1]/div/form/button");
@@ -27,18 +21,16 @@ public class TC_Ecom_Login_Func {
 	By logoutButton = By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[4]/a");
 	By LoginMSG = By.xpath("//*[@id=\"form\"]/div/div/div[1]/div/h2");
 	By LoggedInAsUsername = By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[10]/a");
-	By homeHeading = By.xpath("//*[@id=\"form\"]/div/div/div[1]/div/h2");
+	
+	public boolean LoginErrorMSG() {
+		 return driver.findElement(loginError).getText().contains("Your email or password is incorrect!");
+	}
 	
 	
-	//Methods
-	
-	public boolean isHomeHeadingDisplayed() {
-		return driver.findElement(homeHeading).isDisplayed();
+	public boolean LoggedinasUsername() {
+		return driver.findElement(LoggedInAsUsername).getText().contains("Logged in as Rohith Kumar");
 	}
 
-	public boolean LoggedinUserNameDisplayed() {
-		return driver.findElement(LoggedInAsUsername).isDisplayed();	
-	}
 	public WebElement VerifyMSG() {
 		return driver.findElement(LoginMSG);
 	}
@@ -48,7 +40,6 @@ public class TC_Ecom_Login_Func {
 	}
 	
 	public void enteremail(String email) {
-		driver.findElement(txt_email).clear();
 		driver.findElement(txt_email).sendKeys(email);
 	}
 	
@@ -72,9 +63,7 @@ public class TC_Ecom_Login_Func {
 	
 	public void clickLogout()
 	{
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-	    wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
-		 //driver.findElement(logoutButton).click();
+		 driver.findElement(logoutButton).click();
 	}
 	
 	public boolean isPasswordMasked() {
@@ -95,16 +84,11 @@ public class TC_Ecom_Login_Func {
 
     public WebElement getFocusedElement() {
         return driver.switchTo().activeElement();
-    }	
-    public boolean LoginErrorMSGDisplayed() {
-    	try {
-    		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    		WebElement errorMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(
-    		By.xpath("//p[contains(text(),'Your email or password is incorrect!')]")));
-    		return errorMsg.isDisplayed();
-    	} catch (TimeoutException e) {
-    		return false;
-    	}
     }
+	
+	
 
+
+	
+	
 }
