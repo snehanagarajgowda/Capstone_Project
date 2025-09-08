@@ -4,18 +4,16 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class ExtentManager {
-	
 	private static ExtentReports extent;
-	static String projectpath=System.getProperty("user.dir")  ;
-	public static ExtentReports getinstance(){
-      if(extent==null){
-		String reportpath=projectpath+"\\src\\test\\resources\\Reports";
-		ExtentSparkReporter spark=new ExtentSparkReporter(reportpath);
-		 extent = new ExtentReports(); 
-		extent.attachReporter(spark);
-}
-		return extent;
-	
+	static String projectpath=System.getProperty("user.dir");
+	String className = this.getClass().getSimpleName();
+	public static ExtentReports getinstance() {
+	    if (extent == null) {
+	        ExtentSparkReporter spark = new ExtentSparkReporter(projectpath + "\\src\\test\\resources\\automationexcercise_Reports\\LoginSignup_UI_Test_Report2.html");
+	        extent = new ExtentReports();
+	        extent.attachReporter(spark);
+	    }
+	    return extent;
 	}
 
 }

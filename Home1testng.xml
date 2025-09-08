@@ -4,7 +4,7 @@
   <test thread-count="5" name="ChromeTest">
   <parameter name="browser" value="chrome"></parameter>
   <classes>
-  <class name="capstone.TC_ECOM_HomePage_TestNG"/>
+  <class name="capstone.TC_Ecom_HomePage_TestNG"/>
   </classes>
  
   
@@ -13,14 +13,14 @@
   <test thread-count="5" name="EdgeTest">
   <parameter name="browser" value="edge"></parameter>
   <classes>
-  <class name="capstone.TC_ECOM_HomePage_TestNG"/>
+  <class name="capstone.TC_Ecom_HomePage_TestNG"/>
   </classes>
   </test> <!-- Test-->
   
   <test thread-count="5" name="FireFoxTest">
   <parameter name="browser" value="firefox"></parameter>
   <classes>
-  <class name="capstone.TC_ECOM_HomePage_TestNG"/>
+  <class name="capstone.TC_Ecom_HomePage_TestNG"/>
   </classes>
   </test> <!-- Test-->
 </suite> <!-- Suite -->
