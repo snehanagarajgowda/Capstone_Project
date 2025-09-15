@@ -1,6 +1,5 @@
 package com.automationexercise.pages;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -71,5 +70,4 @@ public class TC_Products_page_ui_02 {
 		
 		return driver.findElement(firstproduct).isDisplayed();
 	}
-	
 }

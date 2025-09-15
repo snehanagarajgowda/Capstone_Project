@@ -16,6 +16,8 @@ public class TC_Ecom_Homepage {
 	public TC_Ecom_Homepage(WebDriver driver) {
 		this.driver = driver;
 	}
+	
+	// Locators
 
 	By homeLogo = By.xpath("//*[@id=\"header\"]/div/div/div/div[1]/div/a/img");
 	By homeButton = By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[1]/a");
@@ -47,6 +49,7 @@ public class TC_Ecom_Homepage {
 			
 	
 	
+	// Methods
 	
 	public boolean isLogoDisplayed() {
 		return driver.findElement(homeLogo).isDisplayed();

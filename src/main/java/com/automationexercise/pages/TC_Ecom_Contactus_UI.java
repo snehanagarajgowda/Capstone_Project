@@ -34,6 +34,8 @@ public class TC_Ecom_Contactus_UI {
 	
 	
 	
+	// Methods
+	
 	public void clickContactusButton() {
 		driver.findElement(contactUsButton).click();
 	}

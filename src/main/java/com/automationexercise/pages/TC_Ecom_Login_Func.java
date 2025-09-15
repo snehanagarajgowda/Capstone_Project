@@ -48,14 +48,14 @@ public class TC_Ecom_Login_Func {
 	}
 	
 	public void enteremail(String email) {
-		driver.findElement(txt_email).clear();
-		driver.findElement(txt_email).sendKeys(email);
+	    driver.findElement(txt_email).clear();
+	    driver.findElement(txt_email).sendKeys(email);
 	}
-	
-	public void enterpassword(String password)
-	{
-		driver.findElement(txt_password).sendKeys(password);
+
+	public void enterpassword(String password) {
+	    driver.findElement(txt_password).sendKeys(password);
 	}
+
 	
 	public void clickLogin()
 	{

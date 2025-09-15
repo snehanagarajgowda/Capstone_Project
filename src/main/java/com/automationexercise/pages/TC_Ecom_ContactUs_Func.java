@@ -25,7 +25,7 @@ public class TC_Ecom_ContactUs_Func {
 	By homeheadingText = By.xpath("//*[@id=\"slider-carousel\"]/div/div[1]/div[1]/h1/span");
 
 
-// Methods for Contact us page
+         // Methods 
 	
 	public boolean isHomePageTextDisplayed() {
 		return driver.findElement(homeheadingText).isDisplayed();
