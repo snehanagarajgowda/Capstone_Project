@@ -1,182 +1,340 @@
 package com.automationexercise.tests;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.time.Duration;
 
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.automationexercise.Base.BaseTest;
 import com.automationexercise.pages.TC_Ecom_ContactUs_Func;
+import com.automationexercise.pages.TC_Ecom_Contactus_UI;
+import com.automationexercise.utilities.ExcelUtilities;
 import com.automationexercise.utilities.ScreenshotUtilities;
 import com.aventstack.extentreports.ExtentTest;
 
 public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 	String projectpath=System.getProperty("user.dir");
-	
+	TC_Ecom_ContactUs_Func contactus;
+	@BeforeMethod
+	public void setupPage() {
+		contactus= new TC_Ecom_ContactUs_Func(driver);
+	}
+
+
+
+
 	// TC01. Verify Home Page URL
 	@Test
-	public void VerifyUrlNavigatesHomepage() throws IOException {
+	public void TC01_VerifyUrlNavigatesHomepage() throws IOException {
 		ExtentTest test=extent.createTest("To verify and validate that the user can navigate to the URL: 'http://automationexercise.com'");
 
-		driver.get("https://automationexercise.com");
+		try {
 
-		String expectedURL = "https://automationexercise.com/";
-		String actualURL = driver.getCurrentUrl();
-		if(actualURL.equals(expectedURL)) {
-			test.pass("TC01 Passed: URL navigates to the home page");
+			String expectedURL = "https://automationexercise.com/";
+			String actualURL = driver.getCurrentUrl();
 
+			if (actualURL.equals(expectedURL)) {
+				test.pass("URL navigates correctly to home page");
+
+				if (driver.getTitle().contains("Automation Exercise")) {
+					test.pass("Home page title is correct: " + driver.getTitle());
+				} else {
+					test.fail(" Home page title mismatch").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "HomepageTitleMismatch"));
+				}
+
+			} else {
+				test.fail("Step 2: URL is not correct. Actual: " + actualURL).addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "NavigationToHomePageFails"));
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
 		}
-		else {
-			test.fail("TC01 Failed: Url is not navigated to home page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation to home page fails"));;
-		}
-	} 
+	}
 
 	// TC02. Verify on clicking contactus its should open contact us page
 	@Test
-	public void VerifyHomeNavigatesContactuspage() throws IOException {
+	public void TC02_VerifyHomeNavigatesContactuspage() throws IOException {
 		ExtentTest test=extent.createTest("To verify and validate that the user can navigate to the Contact us page");
+		try {
+			if(driver.getTitle().contains("Automation Exercise")) {
+				test.pass("Url navigated to home page");
+				contactus.clickContactUs();
+				test.pass("Clicked on contact us button");
 
-		driver.get("https://automationexercise.com");
-		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
-		contactus.clickContactUs();
-		String actualTitle = driver.getTitle();
-		if(actualTitle.equalsIgnoreCase("Automation Exercise - Contact us")) {
-			test.pass("Navigated to contact us page");
+
+				String actualTitle = driver.getTitle();
+				if(actualTitle.equalsIgnoreCase("Automation Exercise - Contact us")) {
+					test.pass("Navigated to contact us page");
+					test.pass("Contact us page is opened");
+				}
+				else {
+					test.fail("Not navigated to contact us page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation fails to contactus page"));
+					test.fail("Contact us page is not opened");
+
+				}
+			}else {
+				test.fail("Url not navigated to home page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation fails to home page"));;
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
 		}
-		else {
-			test.fail("Not navigated to contact us page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation fails to contactus page"));
-		}
-	}  
+	}
 
 	// TC03. Verify form submission with valid details and file upload
-	@Test
-	public void verifyContactFormSubmission() throws IOException {
+	@Test(dataProvider="excelData")
+
+	public void TC03_verifyContactFormSubmission(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("To verify and validate the Contact Us form submission with valid details and file upload");
 
-		driver.get("https://automationexercise.com");
-
-		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
-		contactus.clickContactUs();
-		contactus.enterName("Sneha");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("Capstone project");
-		contactus.enterMessage("Testing automation exercise");
-		String filePath = projectpath + "\\src\\test\\resources\\automationexercise_TestData\\CapstoneProject.txt";
-		contactus.uploadFile(filePath);
-		contactus.clickSubmit();
-
-		//to handle alert after submission
 		try {
-			driver.switchTo().alert().accept();
-		}catch (NoAlertPresentException e) {
-		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		if(contactus.isSuccessMessageDisplayed()) {
-			test.pass("Form submitted successfully");
-		}
-		else {
-			test.fail("Form not submitted").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Form submission failed"));
-		}
+			if(driver.getTitle().contains("Automation Exercise")) {
+				test.pass("Url navigated to home page");
+				contactus.clickContactUs();
+				test.pass("Clicked on contact us button");
+				if(contactus.isContactUsDisplayed()) {
+					test.pass("Contactus page is opened");
+				}else {
+					test.fail("Contactus page is not opened").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Contactus page open fails "));
+				}
+				contactus.enterName(username);
+				if(username!=null) {
+					test.pass("username entered:" +username);
+				}else {
+					test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+				}
 
 
+				contactus.enterEmail(useremail);
+				if(useremail!=null) {
+					test.pass("useremail entered:" +useremail);
+				}else {
+					test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+				}
+				
+				contactus.enterSubject(sub);
+				if(sub!=null) {
+					test.pass("subject entered:" +sub);
+				}else {
+					test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+				}
+				
+				
+				contactus.enterMessage(messagetxt);
+				if(messagetxt!=null) {
+					test.pass("message entered:" +messagetxt);
+				}else {
+					test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+				}
+				
+				String filePath = projectpath + "\\src\\test\\resources\\automationexercise_TestData\\CapstoneProject.txt";
+				contactus.uploadFile(filePath);
+				test.pass("Uploaded file");
+				contactus.clickSubmit();
+				test.pass("Clicked on submit button");
+
+				//to handle alert after submission
+				try {
+					driver.switchTo().alert().accept();
+				}catch (NoAlertPresentException e) {
+				}
+				WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				if(contactus.isSuccessMessageDisplayed()) {
+					test.pass("Form submitted successfully");
+				}
+				else {
+					test.fail("Form not submitted").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Form submission failed"));
+				}
+
+
+			}else {
+				test.fail("Url not navigated to home page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation fails to home page"));;
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
+		}
 	}
 	// TC04. Verify form submission with valid details without file upload)
-	@Test
-	public void verifyContactFormSubmissionWithoutFile() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC04_verifyContactFormSubmissionWithoutFile(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("To verify and validate the Contact Us form submission with all valid details but without file upload");
-
-		driver.get("https://automationexercise.com");
-
-		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
-		contactus.clickContactUs();
-
-		// Enter valid details
-		contactus.enterName("Sneha");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("Capstone project");
-		contactus.enterMessage("Testing automation exercise");
-		contactus.clickSubmit();
-		//to handle alert after submission
 		try {
-			driver.switchTo().alert().accept();
-		}catch (NoAlertPresentException e) {
-		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		if(contactus.isSuccessMessageDisplayed()) {
-			test.pass("Form submitted successfully");
-		}
-		else {
-			test.fail("Form not submitted").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Form submission failed"));
+			if(driver.getTitle().contains("Automation Exercise")) {
+				test.pass("Url navigated to home page");
+				contactus.clickContactUs();
+				test.pass("Clicked on contact us button");
+				if(contactus.isContactUsDisplayed()) {
+					test.pass("Contactus page is opened");
+				}else {
+					test.fail("Contactus page is not opened").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Contactus page open fails "));
+				}
+				// Enter valid details
+				contactus.enterName(username);
+				if(username!=null) {
+					test.pass("username entered:" +username);
+				}else {
+					test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+				}
 
+
+				contactus.enterEmail(useremail);
+				if(useremail!=null) {
+					test.pass("useremail entered:" +useremail);
+				}else {
+					test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+				}
+				
+				contactus.enterSubject(sub);
+				if(sub!=null) {
+					test.pass("subject entered:" +sub);
+				}else {
+					test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+				}
+				
+				
+				contactus.enterMessage(messagetxt);
+				if(messagetxt!=null) {
+					test.pass("message entered:" +messagetxt);
+				}else {
+					test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+				}
+				contactus.clickSubmit();
+				test.pass("Clicked on submit button");
+				//to handle alert after submission
+				try {
+					driver.switchTo().alert().accept();
+				}catch (NoAlertPresentException e) {
+				}
+				WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				if(contactus.isSuccessMessageDisplayed()) {
+					test.pass("Form submitted successfully");
+				}
+				else {
+					test.fail("Form not submitted").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Form submission failed"));
+
+				}
+			} else {
+				test.fail("Url not navigated to home page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation fails to home page"));;
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
 		}
-	} 
+	}
 
-	//TC05. // TC04. Verify form submission with valid details without name
+	//TC05. Verify form submission with valid details without name
 
-	@Test
-	public void verifyContactFormWithoutName() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC05_verifyContactFormWithoutName(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("Verify Contact Us form cannot be submitted with empty name");
-
-		driver.get("https://automationexercise.com");
-
-		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
-		contactus.clickContactUs();
-
-		// Leave Name empty
-		contactus.enterName("");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("Capstone project");
-		contactus.enterMessage("Testing automation exercise");
-
-		contactus.clickSubmit();
-		//to handle alert after submission
 		try {
-			driver.switchTo().alert().accept();
-		} catch (NoAlertPresentException e) {
-			// continue
+			if(driver.getTitle().contains("Automation Exercise")) {
+				test.pass("Url navigated to home page");
+				contactus.clickContactUs();
+				test.pass("Clicked on contact us button");
+				if(contactus.isContactUsDisplayed()) {
+					test.pass("Contactus page is opened");
+				}else {
+					test.fail("Contactus page is not opened").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Contactus page open fails "));
+				}
+
+				// Leave Name empty
+				contactus.enterName(username);
+				if(username!=null) {
+					test.pass("username entered:" +username);
+				}else {
+					test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+				}
+
+
+				contactus.enterEmail(useremail);
+				if(useremail!=null) {
+					test.pass("useremail entered:" +useremail);
+				}else {
+					test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+				}
+				
+				contactus.enterSubject(sub);
+				if(sub!=null) {
+					test.pass("subject entered:" +sub);
+				}else {
+					test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+				}
+				
+				
+				contactus.enterMessage(messagetxt);
+				if(messagetxt!=null) {
+					test.pass("message entered:" +messagetxt);
+				}else {
+					test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+				}
+
+				contactus.clickSubmit();
+				test.pass("Clicked on submit button");
+
+				//to handle alert after submission
+				try {
+					driver.switchTo().alert().accept();
+				} catch (NoAlertPresentException e) {
+					// continue
+				}
+				WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				if(contactus.isSuccessMessageDisplayed()) {
+					test.pass("Form submitted successfully");
+				}
+				else {
+					test.fail("Form not submitted").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Form submission failed"));
+				}
+			} 
+			else {
+				test.fail("Url not navigated to home page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation fails to home page"));;
+			}
+		} catch (Exception e) {
+			test.fail("Exception: " + e.getMessage());
 		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		if(contactus.isSuccessMessageDisplayed()) {
-			test.pass("Form submitted successfully");
-		}
-		else {
-			test.fail("Form not submitted").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Form submission failed"));
-		}
-	} 
+	}
 
 	// TC06. Verify form submission with empty Email field
-	@Test
-	public void verifyContactFormWithoutEmail() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC06_verifyContactFormWithoutEmail(String username,String email, String subject, String msg) throws IOException {
 		ExtentTest test = extent.createTest("Verify Contact Us form cannot be submitted with empty Email address");
 
-		driver.get("https://automationexercise.com");
+		if(driver.getTitle().contains("Automation Exercise")) {
+			test.pass("Url navigated to home page");
+			contactus.clickContactUs();
+			test.pass("Clicked on contact us button");
+			if(contactus.isContactUsDisplayed()) {
+				test.pass("Contactus page is opened");
+			}else {
+				test.fail("Contactus page is not opened").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Contactus page open fails "));
+			}
 
-		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
-		contactus.clickContactUs();
-		// Enter valid details
-		contactus.enterName("Sneha");
-		contactus.enterEmail();        //leave email blank		
-		contactus.enterSubject("Capstone project");
-		contactus.enterMessage("Testing automation exercise");
-		contactus.clickSubmit();
-		//to handle alert after submission
-		try {
-			driver.switchTo().alert().accept();
-		} catch (NoAlertPresentException e) {
-			// continue
+			// Enter valid details
+			contactus.enterName(username);
+			test.pass("Name entered successfully");
+			contactus.enterEmail("");        //leave email blank	
+			contactus.enterSubject(subject);
+			contactus.enterMessage(msg);
+			contactus.clickSubmit();
+			//to handle alert after submission
+			try {
+				driver.switchTo().alert().accept();
+			} catch (NoAlertPresentException e) {
+				// continue
+			}
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			String emailValidationMessage = contactus.enterEmail().getAttribute("validationMessage");
+			if (emailValidationMessage != null && !emailValidationMessage.isEmpty()) {
+			} else {
+				test.fail("Message not displayed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation to contact us page fail"));
+			}
 		}
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		String emailValidationMessage = contactus.enterEmail().getAttribute("validationMessage");
-		if (emailValidationMessage != null && !emailValidationMessage.isEmpty()) {
-		} else {
-			test.fail("Message not displayed").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Navigation to contact us page fail"));
-		}
-	} 
+	}
 	// TC07. To verify and validate that the form cannot be submitted with an invalid email format.
-	@Test
-	public void verifyContactFormWithInvalidEmail() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC07_verifyContactFormWithInvalidEmail(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("Verify Contact Us form cannot be submitted with invalid email format");
 
 		driver.get("https://automationexercise.com");
@@ -185,10 +343,35 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 		contactus.clickContactUs();
 
 		// Enter invalid email format
-		contactus.enterName("Sneha");
-		contactus.enterEmail("snehacom12"); 
-		contactus.enterSubject("Test Invalid Email");
-		contactus.enterMessage("Testing automation exercise");
+		contactus.enterName(username);
+		if(username!=null) {
+			test.pass("username entered:" +username);
+		}else {
+			test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+		}
+
+
+		contactus.enterEmail(useremail);
+		if(useremail!=null) {
+			test.pass("useremail entered:" +useremail);
+		}else {
+			test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+		}
+		
+		contactus.enterSubject(sub);
+		if(sub!=null) {
+			test.pass("subject entered:" +sub);
+		}else {
+			test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+		}
+		
+		
+		contactus.enterMessage(messagetxt);
+		if(messagetxt!=null) {
+			test.pass("message entered:" +messagetxt);
+		}else {
+			test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+		}
 
 		// Click submit
 		contactus.clickSubmit();
@@ -205,8 +388,8 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 		}
 	} 
 	//TC08. To verify and validate that the form cannot be submitted with an empty 'Subject' field.
-	@Test
-	public void verifyContactFormWithoutSubject() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC08_verifyContactFormWithoutSubject(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("Verify Contact Us form cannot be submitted with invalid email format");
 
 		driver.get("https://automationexercise.com");
@@ -215,10 +398,35 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 		contactus.clickContactUs();
 
 		// Enter invalid email format
-		contactus.enterName("Sneha");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("");
-		contactus.enterMessage("Testing automation exercise");
+		contactus.enterName(username);
+		if(username!=null) {
+			test.pass("username entered:" +username);
+		}else {
+			test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+		}
+
+
+		contactus.enterEmail(useremail);
+		if(useremail!=null) {
+			test.pass("useremail entered:" +useremail);
+		}else {
+			test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+		}
+		
+		contactus.enterSubject(sub);
+		if(sub!=null) {
+			test.pass("subject entered:" +sub);
+		}else {
+			test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+		}
+		
+		
+		contactus.enterMessage(messagetxt);
+		if(messagetxt!=null) {
+			test.pass("message entered:" +messagetxt);
+		}else {
+			test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+		}
 
 		// Click submit
 		contactus.clickSubmit();
@@ -237,8 +445,8 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 	} 
 
 	//TC09. To verify and validate that the form cannot be submitted with an empty 'Message' field.
-	@Test
-	public void verifyContactFormWithoutMessage() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC09_verifyContactFormWithoutMessage(String username,String useremail, String sub) throws IOException {
 		ExtentTest test = extent.createTest("Verify Contact Us form cannot be submitted with invalid email format");
 
 		driver.get("https://automationexercise.com");
@@ -247,10 +455,32 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 		contactus.clickContactUs();
 
 		// Enter invalid email format
-		contactus.enterName("Sneha");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("Capstone project");
+		contactus.enterName(username);
+		if(username!=null) {
+			test.pass("username entered:" +username);
+		}else {
+			test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+		}
+
+
+		contactus.enterEmail(useremail);
+		if(useremail!=null) {
+			test.pass("useremail entered:" +useremail);
+		}else {
+			test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+		}
+		
+		contactus.enterSubject(sub);
+		if(sub!=null) {
+			test.pass("subject entered:" +sub);
+		}else {
+			test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+		}
+		
+		
 		contactus.enterMessage("");
+		test.pass("Message is empty");
+
 
 		// Click submit
 		contactus.clickSubmit();
@@ -269,18 +499,41 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 	} 
 
 	//TC10. To verify and validate that the form submission is cancelled when the user clicks 'Cancel' on the confirmation alert.
-	@Test
-	public void verifyContactFormCancelSubmission() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC10_verifyContactFormCancelSubmission(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("Verify form submission is cancelled when user clicks 'Cancel' on alert");
-
-		driver.get("https://automationexercise.com");
 
 		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
 		contactus.clickContactUs();
-		contactus.enterName("Sneha");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("Capstone Project");
-		contactus.enterMessage("Testing automation exercise");
+		contactus.enterName(username);
+		if(username!=null) {
+			test.pass("username entered:" +username);
+		}else {
+			test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+		}
+
+
+		contactus.enterEmail(useremail);
+		if(useremail!=null) {
+			test.pass("useremail entered:" +useremail);
+		}else {
+			test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+		}
+		
+		contactus.enterSubject(sub);
+		if(sub!=null) {
+			test.pass("subject entered:" +sub);
+		}else {
+			test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+		}
+		
+		
+		contactus.enterMessage(messagetxt);
+		if(messagetxt!=null) {
+			test.pass("message entered:" +messagetxt);
+		}else {
+			test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+		}
 
 		contactus.clickSubmit();
 		try {
@@ -300,19 +553,41 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 	} 
 
 	//TC11. To verify and validate the functionality of the Home button on the success page.
-	@Test
-	public void verifyHomeButtonFunctionality() throws IOException {
+	@Test(dataProvider="excelData")
+	public void TC11_verifyHomeButtonFunctionality(String username,String useremail, String sub, String messagetxt) throws IOException {
 		ExtentTest test = extent.createTest("Verify functionality of home button on success page");
-
-		driver.get("https://automationexercise.com");
-
 		TC_Ecom_ContactUs_Func contactus = new TC_Ecom_ContactUs_Func(driver);
 		contactus.clickContactUs();
 
-		contactus.enterName("Sneha");
-		contactus.enterEmail("03snehan@gmail.com");
-		contactus.enterSubject("Capstone Project");
-		contactus.enterMessage("Testing automation exercise");
+		contactus.enterName(username);
+		if(username!=null) {
+			test.pass("username entered:" +username);
+		}else {
+			test.fail("username not entered(invalid name)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Name not entered"));
+		}
+
+
+		contactus.enterEmail(useremail);
+		if(useremail!=null) {
+			test.pass("useremail entered:" +useremail);
+		}else {
+			test.fail("useremail not entered(invalid email)").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Email not entered"));
+		}
+		
+		contactus.enterSubject(sub);
+		if(sub!=null) {
+			test.pass("subject entered:" +sub);
+		}else {
+			test.fail("subject not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Subject not entered"));
+		}
+		
+		
+		contactus.enterMessage(messagetxt);
+		if(messagetxt!=null) {
+			test.pass("message entered:" +messagetxt);
+		}else {
+			test.fail("message not entered").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Message not entered"));
+		}
 
 		contactus.clickSubmit();
 		try {
@@ -331,5 +606,13 @@ public class TC_Ecom_ContactUs_Functional_Test1 extends BaseTest {
 			test.fail("Home button is not navigated to home page").addScreenCaptureFromPath(ScreenshotUtilities.capturescreenshot(driver, "Homepage fail"));
 		}
 	} 
+	@DataProvider(name = "excelData")
+	public Object[][] getData(Method method) throws IOException {
+		String testName = method.getName(); 
+		String tcId = testName.split("_")[0]; 
+
+		String datapath = projectpath + "\\src\\test\\resources\\automationexercise_TestData\\Contactus.xlsx";
+		return ExcelUtilities.getdata(datapath, "Sheet1", tcId);
+	}
 
 }

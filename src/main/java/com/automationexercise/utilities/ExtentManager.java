@@ -9,7 +9,7 @@ public class ExtentManager {
 	String className = this.getClass().getSimpleName();
 	public static ExtentReports getinstance() {
 	    if (extent == null) {
-	        ExtentSparkReporter spark = new ExtentSparkReporter(projectpath + "\\src\\test\\resources\\automationexcercise_Reports\\LoginSignup_UI_Test_Report2.html");
+	        ExtentSparkReporter spark = new ExtentSparkReporter(projectpath + "\\src\\test\\resources\\automationexcercise_Reports\\HomePage_UI_Test_Report1.html");
 	        extent = new ExtentReports();
 	        extent.attachReporter(spark);
 	    }

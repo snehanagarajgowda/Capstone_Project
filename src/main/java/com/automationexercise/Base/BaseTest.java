@@ -1,6 +1,7 @@
 package com.automationexercise.Base;
 
 
+
 import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
@@ -25,27 +26,26 @@ public class BaseTest {
 	{
 		extent=ExtentManager.getinstance();
 	}
-	
-	
-	@BeforeMethod
-	  public void setup() {
-		  System.out.println("Before method");
-		  WebDriverManager.chromedriver().setup();
-			driver=new ChromeDriver();
-			driver.get("https://automationexercise.com/");
-			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-			driver.manage().window().maximize();
-	  }
-	  @AfterMethod
-	  public void teardown() {
-		  System.out.println("After method");
-		  driver.quit();
-	  }
-	
-	@AfterSuite
-public void flushreport()
 
-{
-	extent.flush();
-}
+
+	@BeforeMethod
+	public void setup() {
+		System.out.println("Before method");
+		WebDriverManager.chromedriver().setup();
+		driver=new ChromeDriver();
+		driver.get("https://automationexercise.com/");
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	}
+	@AfterMethod
+	public void teardown() {
+		System.out.println("After method");
+		driver.quit();
+	}
+
+	@AfterSuite
+	public void flushreport()
+
+	{
+		extent.flush();
+	}
 }
