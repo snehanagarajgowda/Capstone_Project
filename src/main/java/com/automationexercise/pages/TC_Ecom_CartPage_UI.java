@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.automationexercise.pages;
+=======
+package com.automationexercises.pages;
+>>>>>>> bfd624d6f67bc365de35f9d0fa5a381abc8c9718
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
