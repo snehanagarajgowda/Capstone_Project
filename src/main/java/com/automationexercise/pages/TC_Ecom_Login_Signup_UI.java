@@ -18,7 +18,7 @@ public class TC_Ecom_Login_Signup_UI {
 
 	}
 	
-	//Locators
+
 	
 	By loginSignupButton = By.xpath("//*[@id=\"header\"]/div/div/div/div[2]/div/ul/li[4]/a");
 	By loginpageLogo = By.xpath("//*[@id=\"header\"]/div/div/div/div[1]/div/a/img");

@@ -1,5 +1,4 @@
-package com.automationexercises.Base;
-
+package com.automationexercise.Base;
 
 import java.time.Duration;
 
@@ -10,68 +9,35 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
-import com.automationexercises.utilities.ExtentManager;
+import com.automationexercise.utilities.ExtentManager;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
-<<<<<<< HEAD
-	protected WebDriver driver;
-	protected ExtentReports extent;
-	protected ExtentTest test;
-	@BeforeSuite
-	public void setupreport()
-	{
-		extent=ExtentManager.getinstance();
-	}
-
-
-	@BeforeMethod
-	public void setup() {
-		System.out.println("Before method");
-		WebDriverManager.chromedriver().setup();
-		driver=new ChromeDriver();
-		driver.get("https://automationexercise.com/");
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-	}
-	@AfterMethod
-	public void teardown() {
-		System.out.println("After method");
-		driver.quit();
-	}
-
-	@AfterSuite
-	public void flushreport()
-
-	{
-		extent.flush();
-	}
-}
-=======
     protected WebDriver driver;
     protected ExtentReports extent;
     protected ExtentTest test;
 
     @BeforeSuite
     public void setupReport() {
-        extent = ExtentManager.getInstance();  // Corrected method name
+        extent = ExtentManager.getInstance();  // Use correct method
     }
 
     @BeforeMethod
     public void setup() {
-        System.out.println("Before method - launching browser");
+        System.out.println("Before method");
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        driver.manage().window().maximize();  // Optional: maximize window
         driver.get("https://automationexercise.com/");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @AfterMethod
-    public void teardown() {
-        System.out.println("After method - closing browser");
+    public void tearDown() {
+        System.out.println("After method");
         if (driver != null) {
             driver.quit();
         }
@@ -84,4 +50,3 @@ public class BaseTest {
         }
     }
 }
->>>>>>> bfd624d6f67bc365de35f9d0fa5a381abc8c9718

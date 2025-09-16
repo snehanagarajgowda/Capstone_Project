@@ -3,27 +3,32 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.automationexercise.tests.TC_Ecom_Homepage_Test">
+      <class name="com.automationexercise.tests.TC_Ecom_Contactus_UI_Test">
         <methods>
-          <include name="TC08_VerifyVideoTutorialsIconVisibility"/>
-          <include name="teardown"/>
-          <include name="setup"/>
-          <include name="TC10_VerifyAPIListPracticeElementVisibility"/>
-          <include name="TC07_VerifyTestCasesIconVisibility"/>
+          <include name="TC16_VerifySubjectFieldEditable"/>
+          <include name="setupReport"/>
+          <include name="TC14_VerifyNameFieldEditable"/>
+          <include name="TC09_VerifySubscriptionInputtextBox"/>
           <include name="setupPage"/>
-          <include name="TC03_VerifyProductIconVisibility"/>
-          <include name="setupreport"/>
-          <include name="TC02_VerifyHomeIconVisibility"/>
-          <include name="TC09_VerifyContactusIconVisibility"/>
-          <include name="TC06_VerifyTestCasesIconVisibility"/>
-          <include name="TC11_VerifyFeatureItemElementVisibility"/>
-          <include name="TC11_VerifyCategoryElementVisibility"/>
-          <include name="TC04_VerifyCartIconVisibility"/>
-          <include name="TC05_VerifSignupLoginIconVisibility"/>
-          <include name="flushreport"/>
+          <include name="TC17_VerifyMessageFieldEditable"/>
+          <include name="setup"/>
+          <include name="flushReport"/>
+          <include name="TC08_VerifySubscriptiontext"/>
+          <include name="TC05_VerifyMessageTextBox"/>
+          <include name="TC04_VerifySubjectTextBox"/>
+          <include name="tearDown"/>
+          <include name="TC11_VerifyFeedbackUs"/>
+          <include name="TC03_VerifyemailInputTextBOX"/>
+          <include name="TC07_VerifySubmitButton"/>
           <include name="TC01_VerifyLogo"/>
+          <include name="TC02_VerifyNameInputTextBox"/>
+          <include name="TC13_VerifyArrow"/>
+          <include name="TC13_VerifyEmailFieldEditable"/>
+          <include name="TC12_VerifyScrollUp"/>
+          <include name="TC10_VerifyCopyRights"/>
+          <include name="TC06_VerifyUploadFilText"/>
         </methods>
-      </class> <!-- com.automationexercise.tests.TC_Ecom_Homepage_Test -->
+      </class> <!-- com.automationexercise.tests.TC_Ecom_Contactus_UI_Test -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

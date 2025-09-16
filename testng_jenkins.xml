@@ -3,7 +3,7 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
-      <class name="com.automationexercise.tests.TC_Ecom_ContactUs_Functional_Test1"/>
+      <class name="com.automationexercise.tests.TC_Ecom_Contactus_UI_Test"/>
     </classes>
   </test> <!-- Test -->
    <test thread-count="5" name="Test">
@@ -21,7 +21,6 @@
       <class name="com.automationexercise.tests.Product_ui_02"/>
     </classes>
   </test> <!-- Test -->
-    <!-- Test -->
    <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.Product_ui_03"/>
@@ -32,22 +31,22 @@
       <class name="com.automationexercise.tests.Register_func_01"/>
     </classes>
   </test> <!-- Test -->
-     <test thread-count="5" name="Test">
+   <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.Register_func_02"/>
     </classes>
   </test> <!-- Test -->
-     <test thread-count="5" name="Test">
+   <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.Register_func_03"/>
     </classes>
   </test> <!-- Test -->
-     <test thread-count="5" name="Test">
+   <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.Register_func_04"/>
     </classes>
   </test> <!-- Test -->
-     <test thread-count="5" name="Test">
+   <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_APIPage_UI_Test"/>
     </classes>
@@ -57,42 +56,42 @@
       <class name="com.automationexercise.tests.TC_Ecom_CartPage_Functional_Test"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="com.automationexercise.tests.TC_Ecom_ContactUs_Functional_Test1"/>
+    </classes>
+  </test> <!-- Test -->
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_ContactUs_Functional_Test2"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
-    <classes>
-      <class name="com.automationexercise.tests.TC_Ecom_Contactus_UI_Test"/>
-    </classes>
-  </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_Functional_Product_1"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_Functional_Product_2"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_Homepage_Test"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_Homepage_Test2"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_Login_Functional_Test_1"/>
     </classes>
   </test> <!-- Test -->
-   <test thread-count="5" name="Test">
+  <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TC_Ecom_Login_Functional_Test_2"/>
     </classes>
@@ -107,16 +106,14 @@
       <class name="com.automationexercise.tests.TC_Ecom_LoginSignup_UI_Test2"/>
     </classes>
   </test> <!-- Test -->
-  <test thread-count="5" name="Test">
+   <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TestCase_ui_01"/>
     </classes>
   </test> <!-- Test -->
-  <test thread-count="5" name="Test">
+   <test thread-count="5" name="Test">
     <classes>
       <class name="com.automationexercise.tests.TestCase_ui_02"/>
     </classes>
   </test> <!-- Test -->
-  
-  
 </suite> <!-- Suite -->

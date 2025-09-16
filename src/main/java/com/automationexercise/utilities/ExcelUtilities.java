@@ -1,7 +1,5 @@
 package com.automationexercise.utilities;
 
-
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,25 +45,13 @@ public class ExcelUtilities {
         return dataList.toArray(dataArray);
     }
 
-    private static String getCellValue(Cell cell) {
+    private static Object getCellValue(Cell cell) {
         if (cell == null) return "";
         switch (cell.getCellType()) {
-            case STRING:
-                return cell.getStringCellValue().trim();
-            case NUMERIC:
-                if (DateUtil.isCellDateFormatted(cell)) {
-                    return cell.getDateCellValue().toString(); // if date, convert to string
-                } else {
-                    return String.valueOf((long) cell.getNumericCellValue()); // convert number to string
-                }
-            case BOOLEAN:
-                return String.valueOf(cell.getBooleanCellValue());
-            case FORMULA:
-                return cell.getCellFormula();
-            case BLANK:
-                return "";
-            default:
-                return "";
+            case STRING: return cell.getStringCellValue();
+            case NUMERIC: return cell.getNumericCellValue();
+            case BOOLEAN: return cell.getBooleanCellValue();
+            default: return "";
         }
     }
 }

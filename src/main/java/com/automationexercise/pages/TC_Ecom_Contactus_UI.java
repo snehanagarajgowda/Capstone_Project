@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 package com.automationexercise.pages;
-=======
-package com.automationexercises.pages;
->>>>>>> bfd624d6f67bc365de35f9d0fa5a381abc8c9718
 
 import java.time.Duration;
 
@@ -38,11 +34,6 @@ public class TC_Ecom_Contactus_UI {
 	
 	
 	
-<<<<<<< HEAD
-	// Methods
-	
-=======
->>>>>>> bfd624d6f67bc365de35f9d0fa5a381abc8c9718
 	public void clickContactusButton() {
 		driver.findElement(contactUsButton).click();
 	}
