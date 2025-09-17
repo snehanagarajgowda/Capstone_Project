@@ -1,10 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite" parallel="tests" thread-count="5">
+<suite name="Suite" parallel="tests" thread-count="3">
+
+<test name="CartTest">
+    <classes>
+      <class name="com.automationexercise.tests.Cart_ui_01"/>
+    </classes>
+  </test>
+
+  
   <test name="ProductTest">
     <classes>
       <class name="com.automationexercise.tests.Product_ui_01"/>
     </classes>
   </test>
+  
+  <test name="ProductTest2">
+    <classes>
+      <class name="com.automationexercise.tests.Product_ui_02"/>
+    </classes>
+  </test>
+  
+   <test name="ProductTest3">
+    <classes>
+      <class name="com.automationexercise.tests.Product_ui_03"/>
+    </classes>
+  </test>
+  
+   <test name="RegisterTest">
+    <classes>
+      <class name="com.automationexercise.tests.Register_func_01"/>
+    </classes>
+  </test>
+  
+  <test name="RegisterTest2">
+    <classes>
+      <class name="com.automationexercise.tests.Register_func_02"/>
+    </classes>
+  </test>
+  
+  <test name="RegisterTest3">
+    <classes>
+      <class name="com.automationexercise.tests.Register_func_03"/>
+    </classes>
+  </test>
+  
+  <test name="RegisterTest4">
+    <classes>
+      <class name="com.automationexercise.tests.Register_func_04"/>
+    </classes>
+  </test>
+  
+  <test name="APIPage">
+    <classes>
+      <class name="com.automationexercise.tests.TC_Ecom_APIPage_UI_Test"/>
+    </classes>
+  </test>
+  
+  <test name="FuncProduct2">
+    <classes>
+      <class name="com.automationexercise.tests.TC_Ecom_Functional_Product_2"/>
+    </classes>
+  </test>
+  
+  <test name="TestCase01">
+    <classes>
+      <class name="com.automationexercise.tests.TestCase_ui_01"/>
+    </classes>
+  </test>
+  
+  <test name="TestCase02">
+    <classes>
+      <class name="com.automationexercise.tests.TestCase_ui_02"/>
+    </classes>
+  </test>
+  
+  <test name="LoginFunc01">
+    <classes>
+      <class name="com.automationexercise.tests.TC_Ecom_Login_Functional_Test_1"/>
+    </classes>
+  </test>
+  
+    <test name="LoginFunc02">
+    <classes>
+      <class name="com.automationexercise.tests.TC_Ecom_Login_Functional_Test_2"/>
+    </classes>
+  </test>
+  
 </suite>
 
